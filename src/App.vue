@@ -24,14 +24,14 @@
       Filters
     },
     created: function() {
-      axios.get('./static/articles_profor.json').then(response => {
+      axios.get('/static/articles_profor.json').then(response => {
         this.articles = response.data
       })
       .catch(e => {
         console.log('error getting data', e)
         //this.errors.push(e)
       })
-      axios.get('./static/data_profor.json').then(response => {
+      axios.get('/static/data_profor.json').then(response => {
         this.fulldata = response.data
       })
       .catch(e => {
