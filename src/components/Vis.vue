@@ -209,7 +209,7 @@
             },
             {
               "name": "world",
-              "url": "/static/world-110m.json",
+              "url": "./static/world-110m.json",
               "format": {
                 "type": "topojson",
                 "feature": "countries"
