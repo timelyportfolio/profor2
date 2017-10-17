@@ -21,6 +21,8 @@ import GeoFilters from '../geofilters.js'
 import HabitatFilters from '../habitatfilters.js'
 import InterventionFilters from '../interventionfilters.js'
 import OutcomeFilters from '../outcomefilters.js'
+import StudyFilters from '../studyfilters.js'
+import CompFilters from '../compfilters.js'
 
 export default {
   components: {
@@ -28,7 +30,7 @@ export default {
   },
   data () {
     return {
-      filters: [GeoFilters(), HabitatFilters(), InterventionFilters(), OutcomeFilters()],
+      filters: [GeoFilters(), HabitatFilters(), InterventionFilters(), OutcomeFilters(), StudyFilters(), CompFilters()],
       defaultProps: {
         children: 'children',
         label: 'name'

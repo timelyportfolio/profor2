@@ -65,6 +65,8 @@
         var habitat = filters.filter(dd=>dd.type==='habitat').map(dd=>dd.code);
         var intervention = filters.filter(dd=>dd.type==='intervention').map(dd=>dd.type_code);
         var outcome = filters.filter(dd=>dd.type==='outcome').map(dd=>dd.code);
+        var study = filters.filter(dd=>dd.type==='study').map(dd=>dd.code);
+        var comp = filters.filter(dd=>dd.type==='comparator').map(dd=>dd.code);
 
         return this.fulldata
           .filter(
@@ -81,7 +83,12 @@
               var foundout = d.outcome.some(function(dd) {
                 return outcome.indexOf(dd['Out_subtype']) > -1
               })
-              return foundgeo && foundhab && foundint && foundout
+              debugger
+              var foundstudy = study.indexOf(d.study) > -1
+              var foundcomp = d.comparator.some(function(dd) {
+                return comp.indexOf(dd.Comps_type) > -1
+              })
+              return foundgeo && foundhab && foundint && foundout && foundstudy && foundcomp
                 /*
                 intervention.indexOf(d.Int_type) > -1 &&
                 outcome.indexOf(d.Outcome) > -1
@@ -94,10 +101,13 @@
           .concat(checkednodes.filter(d=>d.colname==="ecoregion").map(d=>{return {type:'habitat','id':d.id,'code':d.code}}))
           .concat(checkednodes.filter(d=>d.colname==="type").map(d=>{return {type:'intervention','id':d.id,'type_code':d.type_code}}))
           .concat(checkednodes.filter(d=>d.colname==="outcome").map(d=>{return {type:'outcome','id':d.id,'code':d.code}}))
+          .concat(checkednodes.filter(d=>d.colname==="study").map(d=>{return {type:'study','id':d.id,'code':d.code}}))
+          .concat(checkednodes.filter(d=>d.colname==="comparator").map(d=>{return {type:'comparator','id':d.id,'code':d.code}}))
         
         if(!arrayeq(this.checkedfilters, allfilters, function(d){return d.id})) {
           this.checkedfilters = allfilters
         }
+        window.filters = checkedfilters
       }
     }
   }
