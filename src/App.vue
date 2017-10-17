@@ -54,7 +54,9 @@
             filters_geo: this.checkedfilters.filter(dd=>dd.type==='geo').map(dd=>dd.name),
             filters_int: this.checkedfilters.filter(dd=>dd.type==='intervention').map(dd=>dd.type_code),
             filters_hab: this.checkedfilters.filter(dd=>dd.type==='habitat').map(dd=>dd.code),
-            filters_out: this.checkedfilters.filter(dd=>dd.type==='outcome').map(dd=>dd.code)
+            filters_out: this.checkedfilters.filter(dd=>dd.type==='outcome').map(dd=>dd.code),
+            filters_study: this.checkedfilters.filter(dd=>dd.type==='study').map(dd=>dd.code),
+            filters_comp: this.checkedfilters.filter(dd=>dd.type==='comparator').map(dd=>dd.code)
           }
         //}
       }
@@ -83,7 +85,6 @@
               var foundout = d.outcome.some(function(dd) {
                 return outcome.indexOf(dd['Out_subtype']) > -1
               })
-              debugger
               var foundstudy = study.indexOf(d.study) > -1
               var foundcomp = d.comparator.some(function(dd) {
                 return comp.indexOf(dd.Comps_type) > -1
@@ -107,7 +108,6 @@
         if(!arrayeq(this.checkedfilters, allfilters, function(d){return d.id})) {
           this.checkedfilters = allfilters
         }
-        window.filters = checkedfilters
       }
     }
   }

@@ -66,6 +66,18 @@
         </VegaBarFacet>
       </div>
     </div>
+    <div class="row align-items-start" style="margin-top:2em;">
+      <div class="col col-md-12">
+        <h5>Study Type by Comparator</h5>
+        <VegaBarFacet
+          :matrix = "matrix_compstudy"
+          x = "ArticleCount"
+          y = "Comparator"
+          facet = "StudyType"
+        >
+        </VegaBarFacet>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -391,7 +403,41 @@
           .map(d=>d.values.map(dd=>dd.value));
 
         return merge(nested)
-      }
+      },
+      matrix_compstudy: function() {
+        var filtered = this.filtered
+        var data = filtered.data
+        var comp = filtered.filters_comp
+        var study = filtered.filters_study
+        var filtered_compstudy = []
+        data.forEach(function(d) {
+          d.comparator.forEach(function(dd) {
+            if(comp.indexOf(dd.Comps_type) > -1 && study.indexOf(d.study) > -1) {
+              var comparator = Codes().filter(dc => dc.code === dd.Comps_type)[0]
+              var studytype = Codes().filter(dc => dc.code === d.study)[0]
+
+              filtered_compstudy.push({
+                comparator: comparator ? comparator.code_def : dd.Comps_type,
+                studytype: studytype ? studytype.code_def : d.study,
+                aid: d.aid
+              })
+            }
+          })
+        })
+
+        var nested = nest()
+          .key(d=>d.comparator)
+          .key(d=>d.studytype)
+          .rollup(d=>{ return {
+            StudyType: d[0].studytype,
+            Comparator: d[0].comparator,
+            //Description: Codes().filter(dc => dc.code=== d[0].int_group)[0].code_def,
+            ArticleCount: set(d.map(dd=>dd.aid)).size()
+          }})
+          .entries(filtered_compstudy)
+          .map(d=>d.values.map(dd=>dd.value));
+        return merge(nested)
+      },
     }
   }
 </script>
