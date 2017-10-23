@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-9 ml-md-auto" style="padding-left: 50px;">
+  <div>
     <div class="row align-items-start justify-content-center" style="margin-top:2em;">
       <div class = "col col-md-6">
         <h5>Articles by Country</h5>

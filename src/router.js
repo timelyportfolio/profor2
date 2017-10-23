@@ -1,5 +1,7 @@
 import VueRouter from 'vue-router'
+import Interactives from './components/Interactives.vue'
 import Vis from './components/Vis.vue'
+import DataTable from './components/DataTable.vue'
 
 // 1. Define route components.
 // These can be imported from other files
@@ -11,16 +13,24 @@ import Vis from './components/Vis.vue'
 // `Vue.extend()`, or just a component options object.
 // We'll talk about nested routes later.
 var routes = [
-  { path: '/', component: Vis },
-  { path: '/interactives', component: Vis,
+  {path: '', redirect: '/interactives'},
+  { 
+    path: '/interactives', component: Interactives,
     children: [
+      {
+        path: '',
+        component: Vis
+      },
       {
         path: 'charts',
         component: Vis
+      },
+      {
+        path: 'tables',
+        component: DataTable
       }
     ]
   }
-  //{ path: '/interactives/tables', component: Tables}
   /*  { path: '/research', component: Research,
       children: [
         {

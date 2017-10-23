@@ -7,7 +7,15 @@ module.exports = {
     path: path.resolve(__dirname, './dist/dist'),
     publicPath: 'dist',
     filename: 'build.js'
-  },
+  },/*
+  plugins: [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jquery: 'jquery',
+      'window.jQuery': 'jquery',
+      jQuery: 'jquery'
+    })
+  ],*/
   module: {
     rules: [
       {
