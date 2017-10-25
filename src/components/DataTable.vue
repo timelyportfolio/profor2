@@ -17,12 +17,73 @@ export default {
       handler: function(newFiltered) {
         var $ = window.$
         if(newFiltered.data.length && !this.dt) {
-          this.dt = $('table', this.$el).DataTable({
+          var config = {
             data: newFiltered.data,
             columns: Object.keys(newFiltered.data[0]).map(function(col) {
-              return {data: col}
+              var title = col
+              var render = null
+              if(col === "geo") {
+                title = "Country"
+                render = function(data, type, row, meta) {
+                  return data.map(function(d) {
+                    return d["Study_country.x"]
+                  })
+                  .sort()
+                  .join(", ")
+                }
+              }
+              if(col === "outcome") {
+                title = "Outcome"
+                render = function(data, type, row, meta) {
+                  return data.map(function(d) {
+                    return d["Out_subtype"]
+                  })
+                  .sort()
+                  .join(", ")
+                }
+              }
+              if(col === "intervention") {
+                title = "Intervention"
+                render = function(data, type, row, meta) {
+                  return data.map(function(d) {
+                    return d["Int_type"]
+                  })
+                  .sort()
+                  .join(", ")
+                }
+              }
+              if(col === "habitat") {
+                title = "Habitat"
+                render = function(data, type, row, meta) {
+                  return data.map(function(d) {
+                    return d["Biome."]
+                  })
+                  .sort()
+                  .join(", ")
+                }
+              }
+              if(col === "study") {
+                title = "Study"
+              }
+              if(col === "comparator") {
+                title = "Comparator"
+                render = function(data, type, row, meta) {
+                  return data.map(function(d) {
+                    return d["Comps_type"]
+                  })
+                  .sort()
+                  .join(", ")
+                }
+              }
+              return {
+                data: col,
+                title: title,
+                render: render
+              }
             })
-          })
+          }
+
+          this.dt = $('table', this.$el).DataTable(config)
           return
         }
         
