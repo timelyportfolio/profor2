@@ -92,7 +92,9 @@ export default {
               title: title,
               render: render
             }
-          })
+          }),
+          scrollX: true,
+          scrollY: 400
         }
 
         this.dt = $('table', this.$el).DataTable(config)
@@ -101,7 +103,6 @@ export default {
       
       if(this.dt) {
         var dt = this.dt
-        debugger
         dt.clear()
         if(newFiltered.data.length) {
           dt.rows.add(newFiltered.data)
@@ -130,7 +131,7 @@ export default {
           dt.columns(col).visible(true, false)
         })
       }
-debugger
+
       dt.columns.adjust().draw()
     }
   },
