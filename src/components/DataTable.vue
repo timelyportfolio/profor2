@@ -22,8 +22,20 @@ export default {
   data: function() {
     return {
       dt: null,
-      value: null,
-      options: []
+      value: null
+    }
+  },
+  computed: {
+    options: function() {
+      if(this.filtered.data.length) {
+        return Object.keys(this.filtered.data[0]).map(function(ky, i) {
+          return {
+            i: i,
+            column: ky
+          }
+        })
+      }
+      return []
     }
   },
   methods: {
@@ -140,14 +152,6 @@ export default {
   watch: {
     filtered: {
       handler: function(newFiltered) {
-        if(newFiltered.data.length) {
-          this.options = Object.keys(newFiltered.data[0]).map(function(ky, i) {
-            return {
-              i: i,
-              column: ky
-            }
-          })
-        }
         this.renderTable(newFiltered)
       },
       deep: true
