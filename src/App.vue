@@ -24,6 +24,7 @@
       Filters
     },
     created: function() {
+      /*
       axios.get('./static/articles_profor.json').then(response => {
         this.articles = response.data
       })
@@ -31,6 +32,7 @@
         console.log('error getting data', e)
         //this.errors.push(e)
       })
+      */
       axios.get('./static/data_profor.json').then(response => {
         this.fulldata = response.data
       })
