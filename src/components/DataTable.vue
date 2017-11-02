@@ -47,6 +47,10 @@ export default {
           columns: Object.keys(newFiltered.data[0]).map(function(col) {
             var title = col
             var render = null
+            var type = null
+            if(col === "aid") {
+              type = "num"
+            }
             if(col === "geo") {
               title = "Country"
               render = function(data, type, row, meta) {
@@ -102,12 +106,14 @@ export default {
             }
             return {
               data: col,
+              type: type,
               title: title,
               render: render
             }
           }),
           scrollX: true,
-          scrollY: '60vh'
+          scrollY: '60vh',
+          responsive: true
         }
 
         this.dt = $('table', this.$el).DataTable(config)
