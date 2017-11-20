@@ -78,15 +78,28 @@
         </VegaBarFacet>
       </div>
     </div>
+    <div class="row align-items-start" style="margin-top:2em;">
+      <div class="col col-md-12">
+        <h5>Intervention Combinations</h5>
+        <VegaBar
+          :matrix = "combo_int"
+          x = "ArticleCount"
+          y = "Interventions"
+          style = "height: 300px;"
+        >
+        </VegaBar>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-  import {set, nest} from 'd3-collection'
-  import {merge} from 'd3-array'
+  import {set, nest, entries} from 'd3-collection'
+  import {merge, ascending} from 'd3-array'
 
   import VegaGeomap from './VegaGeomap.vue'
   import VegaBarFacet from './VegaBarFacet.vue'
+  import VegaBar from './VegaBar.vue'
   import VegaHeatmap from './VegaHeatmap.vue'
 
   import Codes from '../codes.js'
@@ -95,6 +108,7 @@
     components: {
       VegaGeomap,
       VegaBarFacet,
+      VegaBar,
       VegaHeatmap
     },
     props: ['filtered', 'checkedfilters'],
@@ -438,6 +452,29 @@
           .map(d=>d.values.map(dd=>dd.value));
         return merge(nested)
       },
+      combo_int: function() {
+        var filtered = this.filtered
+        var data = filtered.data
+        var combinations = data.filter(function(d) {
+          return d.intervention.length > 1
+        }).map(function(d) {
+          return d.intervention.map(function(dd,i) {
+            return dd.Int_type
+          }).sort(ascending).join(",")
+        })
+
+        var combo_hash = {};
+
+        combinations.forEach(function(d,i) {
+          combo_hash[d] = combo_hash[d] ? combo_hash[d] + 1 : 1
+        })
+
+        return entries(combo_hash).map(function(d) {
+          return {"Interventions": d.key, "ArticleCount": d.value}
+        }).sort(function(a,b) {
+          return b.ArticleCount - a.ArticleCount
+        })
+      }
     }
   }
 </script>

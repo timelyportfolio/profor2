@@ -35,6 +35,7 @@
       */
       axios.get('./static/data_profor.json').then(response => {
         this.fulldata = response.data
+        window.fulldata = this.fulldata
       })
       .catch(e => {
         console.log('error getting data', e)
