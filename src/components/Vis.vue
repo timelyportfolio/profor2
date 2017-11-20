@@ -84,7 +84,7 @@
         <VegaBar
           :matrix = "combo_int"
           x = "ArticleCount"
-          y = "Interventions"
+          y = "Intervention"
           style = "height: 300px;"
         >
         </VegaBar>
@@ -460,7 +460,7 @@
         }).map(function(d) {
           return d.intervention.map(function(dd,i) {
             return dd.Int_type
-          }).sort(ascending).join(",")
+          }).sort(ascending).join(" | ")
         })
 
         var combo_hash = {};
@@ -470,7 +470,7 @@
         })
 
         return entries(combo_hash).map(function(d) {
-          return {"Interventions": d.key, "ArticleCount": d.value}
+          return {"Intervention": d.key, "ArticleCount": d.value}
         }).sort(function(a,b) {
           return b.ArticleCount - a.ArticleCount
         })
