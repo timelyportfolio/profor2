@@ -90,6 +90,16 @@
         </VegaBar>
       </div>
     </div>
+    <div class="row align-items-start" style="margin-top:2em;">
+      <div class="col col-md-12">
+        <h5>Intervention Adjacency Matrix</h5>
+        <VegaAdjMatrix
+          style = "height:300px;"
+          :network = "network_int"
+        >
+        </VegaAdjMatrix>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -101,6 +111,7 @@
   import VegaBarFacet from './VegaBarFacet.vue'
   import VegaBar from './VegaBar.vue'
   import VegaHeatmap from './VegaHeatmap.vue'
+  import VegaAdjMatrix from './VegaAdjMatrix.vue'
 
   import Codes from '../codes.js'
 
@@ -109,7 +120,8 @@
       VegaGeomap,
       VegaBarFacet,
       VegaBar,
-      VegaHeatmap
+      VegaHeatmap,
+      VegaAdjMatrix
     },
     props: ['filtered', 'checkedfilters'],
     computed: {
@@ -474,6 +486,47 @@
         }).sort(function(a,b) {
           return b.ArticleCount - a.ArticleCount
         })
+      },
+      network_int: function() {
+        var filtered = this.filtered
+        var data = filtered.data
+        var nodes = {};
+        var links = {};
+        data.forEach(function(d) {
+          d.intervention.forEach(function(dd) {
+            nodes[dd.Int_type] = nodes[dd.Int_type] ? nodes[dd.Int_type] + 1 : 1
+          })
+          if(d.intervention.length > 2) {
+            var int_arr = d.intervention.map(function(dd) {
+              return dd.Int_type
+            }).sort(ascending)
+            
+            int_arr.forEach(function(dd,i) {
+              int_arr.slice(i+1).forEach(function(ddd) {
+                links[dd + "," + ddd] = links[dd + "," + ddd] ? links[dd + "," + ddd] + 1 : 1
+              })
+            })
+          }
+        })
+
+        return {
+          nodes: entries(nodes).map(function(d,i) {
+            var intervention = Codes().filter(dc => dc.code === d.key)[0]
+
+            return {
+              name: d.key,
+              description: intervention ? intervention.code_def : d.key,
+              value: d.value
+            }
+          }),
+          links: entries(links).map(function(d) {
+            return {
+              source: d.key.split(',')[0],
+              target: d.key.split(',')[1],
+              value: d.value
+            }
+          })
+        }
       }
     }
   }

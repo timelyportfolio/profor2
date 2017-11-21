@@ -52,7 +52,6 @@ export default {
     },
     spec: function() {
       if(this.specvl) {
-        debugger
         return vl.compile(this.specvl).spec
       }
       return null
