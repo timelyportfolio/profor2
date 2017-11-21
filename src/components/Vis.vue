@@ -516,14 +516,14 @@
             return {
               name: d.key,
               description: intervention ? intervention.code_def : d.key,
-              value: d.value
+              ArticleCount: d.value
             }
           }),
           links: entries(links).map(function(d) {
             return {
               source: d.key.split(',')[0],
               target: d.key.split(',')[1],
-              value: d.value
+              ArticleCount: d.value
             }
           })
         }

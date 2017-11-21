@@ -54,7 +54,7 @@ export default {
               "name": "nodes",
               "values": this.network.nodes,
               "transform": [
-                { "type": "collect", "sort": {"field": "value", "order": "descending"} },
+                { "type": "collect", "sort": {"field": "ArticleCount", "order": "descending"} },
                 { "type": "window", "ops": ["rank"], "as": ["order"] },
                 {
                   "type": "formula", "as": "order",
@@ -96,7 +96,7 @@ export default {
               "name": "color",
               "type": "sequential",
               "range": "heatmap",
-              "domain": {"data": "edges", "field": "value"}
+              "domain": {"data": "edges", "field": "ArticleCount"}
             },
             {
               "name": "labels",
@@ -132,7 +132,7 @@ export default {
                   "y": {"scale": "position", "field": "targetNode.order"},
                   "width": {"scale": "position", "band": 1, "offset": -1},
                   "height": {"scale": "position", "band": 1, "offset": -1},
-                  "fill": {"scale": "color", "field": "value"}
+                  "fill": {"scale": "color", "field": "ArticleCount"}
                 }
               }
             },
@@ -145,7 +145,7 @@ export default {
                   "width": {"scale": "position", "band": 1, "offset": -1},
                   "y": {"scale": "position", "field": "sourceNode.order"},
                   "height": {"scale": "position", "band": 1, "offset": -1},
-                  "fill": {"scale": "color", "field": "value"}
+                  "fill": {"scale": "color", "field": "ArticleCount"}
                 }
               }
             },
