@@ -79,7 +79,7 @@
       </div>
     </div>
     <div class="row align-items-start" style="margin-top:2em;">
-      <div class="col col-md-12">
+      <div class="col col-md-6">
         <h5>Intervention Combinations</h5>
         <VegaBar
           :matrix = "combo_int"
@@ -89,9 +89,7 @@
         >
         </VegaBar>
       </div>
-    </div>
-    <div class="row align-items-start" style="margin-top:2em;">
-      <div class="col col-md-12">
+      <div class="col col-md-6">
         <h5>Intervention Adjacency Matrix</h5>
         <VegaAdjMatrix
           style = "height:300px;"
@@ -493,17 +491,28 @@
         var nodes = {};
         var links = {};
         data.forEach(function(d) {
+          var nnode = d.intervention.length
           d.intervention.forEach(function(dd) {
             nodes[dd.Int_type] = nodes[dd.Int_type] ? nodes[dd.Int_type] + 1 : 1
           })
-          if(d.intervention.length > 2) {
+          if(nnode > 1) {
             var int_arr = d.intervention.map(function(dd) {
               return dd.Int_type
-            }).sort(ascending)
-            
+            })
+  
             int_arr.forEach(function(dd,i) {
               int_arr.slice(i+1).forEach(function(ddd) {
-                links[dd + "," + ddd] = links[dd + "," + ddd] ? links[dd + "," + ddd] + 1 : 1
+                if(links[[dd,ddd].join(",")]) {
+                  links[[dd,ddd].join(",")] = links[[dd,ddd].join(",")] + 1
+                  return
+                }
+
+                if(links[[ddd,dd].join(",")]) {
+                  links[[ddd,dd].join(",")] = links[[ddd,dd].join(",")] + 1
+                  return
+                }
+                
+                links[[dd,ddd].join(",")] = 1
               })
             })
           }
