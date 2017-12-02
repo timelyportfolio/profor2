@@ -28,12 +28,18 @@ export default {
   computed: {
     options: function() {
       if(this.filtered.data.length) {
-        return Object.keys(this.filtered.data[0]).map(function(ky, i) {
+        var columns = Object.keys(this.filtered.data[0]).map(function(ky, i) {
           return {
             i: i,
             column: ky
           }
         })
+
+        // now add outlook details custom column
+        return columns.concat([{
+          i: columns.length,
+          column: "Outcome Details"
+        }])
       }
       return []
     }
@@ -115,6 +121,28 @@ export default {
           scrollY: '60vh',
           responsive: true
         }
+
+        config.columns.push({
+          data: "outcome",
+          type: 'string',
+          title: 'Outcome Details',
+          render: function(data, type, row, meta) {
+            return ["<ul style='list-style: none;'>"]
+              .concat(data.map(function(d, i) {
+                return [
+                  "<li><span style='font-weight: bold;'>Outcome " + (i+1) + "</span>",
+                  "<ul style='list-style: none;'>"
+                ].concat(
+                  Object.keys(d).map(function(ky) {
+                    return "<li><span style='font-weight: bold;'>" + ky + "</span>: " + d[ky] + "</li>"
+                  })
+                ).concat(["</ul></li>"])
+                .join("\n")
+              }))
+              .concat(["</ul>"])
+              .join("\n")
+          }
+        })
 
         this.dt = $('table', this.$el).DataTable(config)
         return
