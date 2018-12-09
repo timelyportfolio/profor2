@@ -1,5 +1,5 @@
 {
-  "file": "https://cdn.rawgit.com/timelyportfolio/profor2/ec530764/experiments/upset_int.csv",
+  "file": "https://cdn.jsdelivr.net/gh/timelyportfolio/profor2@ec530764/experiments/upset_int.csv",
   "name": "Profor Intervention Type",
   "header": 0,
   "separator": ",",
